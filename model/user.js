@@ -8,6 +8,7 @@ const userSchema=new mongo.Schema({
             throw Error ('invalid email')
         }
     }},
+    googleId:String,
     password:String,
     image:String,
     profileImage:{type:String || null,default:null},

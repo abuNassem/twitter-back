@@ -6,8 +6,8 @@ const postSchema = new mongo.Schema({
         text: { type: String, default: null },
         images: { type: [String], default: [],max:3 }
     },
-    reactCount: { type: Number, default: 0 },
-    commentCount: { type: Number, default: 0 }
+    reactCount: { type: Number, default: 0,min:0 },
+    commentCount: { type: Number, default: 0,min:0 }
 }, { timestamps: true });
 
 const Post = mongo.model('Post', postSchema);

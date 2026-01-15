@@ -1,5 +1,7 @@
 const {Server}=require('socket.io');
-const Comment = require('../model/comment');
+const jwt=require('jsonwebtoken')
+
+
 
 let io;
 
@@ -11,15 +13,18 @@ exports.initSocket=(httpServer)=>{
     })
 
     io.on('connection',socket=>{
-    socket.on('send',data=>{
-        const comment={
-            text:data.text,
-            name:data.name,
-            profileImage:data.profileImage,
-            createAt:new Date().toISOString()
-        }
-        io.emit('rePostComment',comment)
-    })
+        const token = socket.handshake.auth?.token;
+    if (!token) {
+      console.log('❌ No token',token);
+      return;
+    }
+
+        const decoded= jwt.verify(token,process.env.JWT_SECRT)
+                  console.log(' token is',decoded.id);
+
+        socket.join(decoded.id)
+        console.log('is',decoded.id)
+
 
     })
 

@@ -28,3 +28,15 @@ try{
     res.status(400).json({error})
 }
 }
+
+exports.IncCommentCount=async(req,res)=>{
+    try{
+        const postId=req.params.postId
+        await Post.findOneAndUpdate({_id:postId},{$inc:{commentCount:1}})
+
+    }catch(error){
+        res.status(500).json({error})
+    }
+}
+
+
