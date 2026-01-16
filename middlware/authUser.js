@@ -32,7 +32,7 @@ const providedToken = authHeader.split(' ')[1];
 
     } catch (error) {
         // إذا فشل الـ verify أو أي عملية أخرى، نرسل رد خطأ واضح بدلاً من انهيار السيرفر
-        console.error("Auth Middleware Error:", error.message);
+        console.log("Auth Middleware Error:", error);
                  res.status(500).json({error });
 
         return res.status(401).json({ message: 'Invalid or expired token' });
