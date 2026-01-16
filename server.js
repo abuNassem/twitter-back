@@ -34,5 +34,5 @@ app.use(oAuthGoogle)
 
 const port=3001|process.env.PORT
 server.listen(port,()=>{
-    console.log('successfully','http://localhost:3001')
+    console.log('successfully',`${process.env.PORT}`)
 })
