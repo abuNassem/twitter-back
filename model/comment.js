@@ -6,6 +6,10 @@ const commentSchema=new mongo.Schema({
     postId:mongo.Schema.Types.ObjectId,
     nameUser:String,
     profileImage:String,
+     recipient: {
+            type: mongo.Schema.Types.ObjectId,
+            index: true 
+        },
     userId:mongo.Schema.Types.ObjectId
 },{timestamps:true})
 

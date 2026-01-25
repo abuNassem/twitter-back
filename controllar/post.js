@@ -1,3 +1,4 @@
+const { validatePostContent } = require("../function/validatePostContent")
 const Post = require("../model/post")
 
 exports.GetPost=async(req,res)=>{
@@ -18,14 +19,29 @@ exports.CreatePost=async(req,res)=>{
 try{
     const idUser=req.user._id
     const post=req.body
+    
+    if(!validatePostContent(post.type,post.content)){
+        return res.status(404).json({message:'invalid type post'})
+    }
+
+const text = post.content.text;
+
+const matches = text.match(/#[\w\u0600-\u06FF]+/g);
+
+const postHashtags = matches ? matches.map(tag => tag.substring(1)) : [];
+
     const posts=new Post({
         userId:idUser,
+        postHashtags,
         ...post
     })
     await posts.save()
     res.status(200).json({posts})
 }catch(error){
-    res.status(400).json({error})
+    console.error(error); 
+  res.status(400).json({
+    message: error.message,
+  });
 }
 }
 

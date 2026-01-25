@@ -1,15 +1,77 @@
-const mongo = require('mongoose');
+const mongoose = require('mongoose');
 
-const postSchema = new mongo.Schema({
-    userId: { type: mongo.Schema.Types.ObjectId, ref: "user", required: true },
-    content: {
-        text: { type: String, default: null },
-        images: { type: [String], default: [],max:3 }
+const postSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+
+  type: {
+    type: String,
+    enum: ['normal', 'code', 'file', 'video'],
+    required: true,
+  },
+  postHashtags:{
+    type:[String],
+    default:[]
+    
+  },
+
+  content: {
+    text: {
+      type: String,
+      default: null,
     },
-    reactCount: { type: Number, default: 0,min:0 },
-    commentCount: { type: Number, default: 0,min:0 }
+
+    images: {
+      type: [String],
+      default: [],
+      validate: [arr => arr.length <= 3, 'Max 3 images'],
+    },
+
+    video: {
+      type: String,
+      default: null,
+    },
+
+    code: {
+      language: {
+        type: String,
+        default: null,
+      },
+      text: {
+        type: String,
+        default: null,
+      },
+    },
+
+    file: {
+      
+      urlFile: {
+        type: String,
+        default: null,
+      },
+      visable:{type:Boolean,default:false},
+      textContent:String,
+      downlaodAble:{type:Boolean,default:false},
+     
+    },
+  },
+
+  reactCount: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
+
+  commentCount: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
+
 }, { timestamps: true });
 
-const Post = mongo.model('Post', postSchema);
-
-module.exports = Post;
+postSchema.index({ "content.text": "text", postHashtags: 1 });
+module.exports = mongoose.model('Post', postSchema);

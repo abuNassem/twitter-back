@@ -23,6 +23,7 @@ userSchema.pre('save',async function () {
     }
 })
 
+userSchema.index({name:1})
 
 
 const User=mongo.model('user',userSchema)

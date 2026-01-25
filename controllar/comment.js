@@ -6,20 +6,25 @@ exports.CreateComment = async (req, res) => {
   try {
     const io = getIo();
     const user = req.user;
-    const postId = req.params.id;
-    const comment = req.body.text;
+    const postId = req.params.postId;
+    const recipientId=req.params.recipientId
+        const comment = req.body.text;
     const newComment = new Comment({
       text: comment,
+      recipient:recipientId,
       nameUser: user.name,
       profileImage: user.profileImage,
       userId: user._id,
       postId,
     });
-     await Post.findOneAndUpdate(
+    
+     const update=await Post.findOneAndUpdate(
       { _id: postId },
-      { $inc: { commentCount: 1 } }
+      { $inc: { commentCount: 1 } },{
+        new:true
+      }
     );
-
+console.log('update',update)
     await newComment.save();
     const comments = await Comment.find({ postId });
 

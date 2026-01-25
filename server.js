@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser')
 const refreshRouter = require('./router/refreshToken')
 const notificationRouter = require('./router/notification')
 const oAuthGoogle = require('./loginWithGoogle/googleLogin')
+const searchRouter = require('./router/search')
 require('./db/db')
 const app=express()
 const server=require('http').createServer(app)
@@ -28,11 +29,14 @@ app.use(postRouter)
 app.use(commentRouter)
 app.use(notificationRouter)
 app.use(reactRouter)
+app.use(searchRouter)
+
 app.use(oAuthGoogle)
+
 
 
 
 const port=3001|process.env.PORT
 server.listen(port,()=>{
-    console.log('successfully',`${process.env.PORT}`)
+    console.log('successfully',`${port}`)
 })

@@ -1,4 +1,10 @@
 const  User = require("../model/user")
+const  Post = require("../model/post")
+const  Comment = require("../model/comment")
+const  React = require("../model/react")
+
+
+
 
 const getUsers=async(req,res)=>{
     try{
@@ -30,6 +36,25 @@ const GetAcount=async(req,res)=>{
     }
 }
 
+const getProfileUser=async(req,res)=>{
+    try{
+        const userId=req.params.userId
+    
+        const user=await User.findOne({_id:userId}).select('profileImage name email')
+        if(!user){
+            res.status(404).json({message:'this acount are not found'})
+        }
+
+        const post=await Post.find({userId}).populate('userId','profileImage name email').lean()
+        const comments=await Comment.find({recipient:userId}).populate('userId','profileImage name email').lean()
+        res.status(200).json({post,comments,user})
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+
 const EditProfile=async(req,res)=>{
     try{
         const idUser=req.user._id
@@ -43,4 +68,4 @@ const EditProfile=async(req,res)=>{
     }
 }
 
-module.exports={getUsers,EditProfile,GetAcount}
+module.exports={getUsers,EditProfile,GetAcount,getProfileUser}

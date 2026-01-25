@@ -1,20 +1,17 @@
 const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
-    // 1. الشخص الذي سيتلقى الإشعار (صاحب التغريدة مثلاً)
     recipient: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true,
-        index: true // تحسين سرعة الاستعلام
+        index: true 
     },
-    // 2. الشخص الذي قام بالفعل (الذي عمل لايك مثلاً)
     sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
     },
-    // 3. نوع الإشعار
     type: {
         type: String,
         enum: ['like', 'comment'],

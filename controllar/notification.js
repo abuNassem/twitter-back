@@ -7,7 +7,8 @@ try{
 
     const id=req.user.id
     const notific=req.body
-    const isSendNoti=await Notific.findOne({recipient:notific.recipientId,type:notific.type})
+    const isSendNoti=await Notific.findOne({recipient:notific.recipientId,type:notific.type,post:notific.postId})
+   
     if(isSendNoti){
         console.log('already')
         return ;
