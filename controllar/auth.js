@@ -65,6 +65,7 @@ const Login = async (req, res) => {
         return res.status(200).json({ 
             message: 'login successfuly', 
             user: { 
+                _id:isRegister._id,
                 name: isRegister.name, 
                 email: isRegister.email, 
                 profileImage: isRegister.profileImage 
