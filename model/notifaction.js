@@ -22,26 +22,24 @@ const notificationSchema = new mongoose.Schema({
         maxLength:30 ,
         
        },
-    // 4. الرابط أو الشيء المرتبط بالإشعار (اختياري حسب النوع)
-    // إذا كان لايك، نخزن ID البوست
+ 
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
         default: null
     },
+    commentId:{type: mongoose.Schema.Types.ObjectId,default:null},
    
     isRead: {
         type: Boolean,
         default: false
     },
-    // 6. وقت الإشعار
     createdAt: {
         type: Date,
         default: Date.now
     }
 }, { timestamps: true });
 
-// إضافة Index مركب لجعل جلب الإشعارات غير المقروءة أسرع
 notificationSchema.index({ recipient: 1, isRead: 1 });
 
 const Notific= mongoose.model('Notification', notificationSchema);

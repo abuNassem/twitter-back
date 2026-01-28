@@ -8,22 +8,23 @@ try{
     const id=req.user.id
     const notific=req.body
     const isSendNoti=await Notific.findOne({recipient:notific.recipientId,type:notific.type,post:notific.postId})
-   
+   console.log('new',notific)
+
     if(isSendNoti){
         console.log('already')
-        return ;
+        return res.status(200).json({message:'already add'}) ;
     }
  const newNotific=new Notific({
         recipient:notific.recipientId,
         sender:id,
         type:notific.type,
         text:notific.text?notific.text:null,
+        commentId:notific.commentId,
         isRead:false,
         post:notific.postId
     })
     await newNotific.save()
         console.log('noooo',newNotific)
-
  const notifics=await Notific.find({recipient:id})
   .populate('sender','-password -updatedAt -createAt -__v -createdAt')
 
