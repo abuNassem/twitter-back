@@ -5,7 +5,7 @@ const commentRouter=require('express').Router()
 
 commentRouter.post('/createComment/:postId/:recipientId',AuthUser,CreateComment)
 
-commentRouter.get('/getComment/:id',AuthUser,getComment)
+commentRouter.get('/getComment/:id',getComment)
 
 
 module.exports=commentRouter
