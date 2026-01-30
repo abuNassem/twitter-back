@@ -17,7 +17,7 @@ const app=express()
 const server=require('http').createServer(app)
 initSocket(server)
 app.use(cors({
-    origin:['http://localhost:3000','https://twittersy.netlify.app'],
+    origin:['http://localhost:3000','https://tiweet.netlify.app'],
     credentials:true,
      methods: ["GET", "POST", "PUT", "DELETE"],
 
