@@ -23,10 +23,9 @@ const Register = async (req, res) => {
                     maxAge:15 * 24 * 60 * 60 * 1000 ,
                 sameSite:'lax'              })
 
-                 const token=req.cookie
-    console.log( 'refes',token)
+                //  const token=req.cookie
         return res.status(200).json({ 
-            user: { name: newUser.name, email: newUser.email }, 
+            user: { name: newUser.name, email: newUser.email,profileImage:newUser.profileImage,_id:newUser._id}, 
             accessToken,
             refreshToken
         });
