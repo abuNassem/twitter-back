@@ -63,7 +63,7 @@ oAuthGoogle.get('/auth/google/callback',
     
 
 
-           return res.redirect(`https://twittersy.netlify.app/?token=${refreshToken}`); 
+           return res.redirect(`https://tiweet.netlify.app/?token=${refreshToken}`); 
            
 
     
