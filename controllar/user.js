@@ -59,7 +59,10 @@ const EditProfile=async(req,res)=>{
     try{
         const idUser=req.user._id
         const data=req.body
-        await User.findByIdAndUpdate(idUser,data,{new:true})
+     let userData={}
+     if(data.name)userData['name']=data.name;
+     if(data.profileImage)userData['profileImage']=data.profileImage
+        await User.findByIdAndUpdate(idUser,userData,{new:true})
         const user=await User.findById(idUser)
         res.status(200).json({user})
 
