@@ -7,7 +7,7 @@ const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const API=process.env.PORT|| 'http://localhost:3001'
-const frontPort=process.env.FRONT_PORT|| 'http://localhost:3001'
+const frontPort=process.env.FRONT_PORT|| 'http://localhost:3000'
 oAuthGoogle.use(session({
   secret: 'mysecret',
   resave: false,
