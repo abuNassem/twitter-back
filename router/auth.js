@@ -1,6 +1,6 @@
 const express=require('express')
-const { Register, Login } = require('../controllar/auth')
-const { limiter } = require('../limater/limater')
+const { Register, Login } = require('../controllers/auth')
+const { limiter } = require('../limiters/limiter')
 const authRouter=express.Router()
 
 authRouter.post('/register',limiter,Register)

@@ -16,8 +16,14 @@ try{
     }
     if(page){
         const allPosts=await Post.find()
-const posts=await Post.find().populate('userId','profileImage name email').lean().limit(page*2)
-if(!posts){
+        const pageSize=4
+const posts = await Post.find()
+  .populate('userId', 'profileImage name email')
+  .lean()
+  .sort({ createdAt: -1 })
+  .skip((page - 1) * pageSize) 
+  .limit(pageSize)
+  if(!posts){
     res.status(400).json({message:'no post '})
     return;
 }

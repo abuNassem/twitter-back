@@ -1,5 +1,5 @@
-const { CreateComment, getComment } = require('../controllar/comment')
-const AuthUser = require('../middlware/authUser')
+const { CreateComment, getComment } = require('../controllers/comment')
+const AuthUser = require('../middlewares/authUser')
 
 const commentRouter=require('express').Router()
 

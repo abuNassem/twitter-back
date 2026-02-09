@@ -1,4 +1,4 @@
-const { suggestions, search, getUserByEmail } = require('../controllar/search')
+const { suggestions, search, getUserByEmail } = require('../controllers/search')
 
 const searchRouter=require('express').Router()
 

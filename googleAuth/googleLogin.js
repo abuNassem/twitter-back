@@ -2,7 +2,7 @@ const oAuthGoogle=require('express').Router()
 require('dotenv').config()
 const session = require('express-session');
 const passport = require('passport');
-const AuthUser=require('../middlware/authUser')
+const AuthUser=require('../middlewares/authUser')
 const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
