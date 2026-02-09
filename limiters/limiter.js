@@ -1,12 +1,12 @@
-const rateLimit=require('express-rate-limit')
+const rateLimit = require('express-rate-limit')
 exports.limiter = rateLimit({
-  windowMs: 5 * 60 * 1000, 
-  max:5, 
+  windowMs: 1 * 60 * 1000,
+  max: 100,
   message: {
     status: 429,
-    message:"لقد أرسلت طلبات كثيرة جداً، يرجى المحاولة بعد 5 دقيقة."
+    message: "Too many requests, please try again after a minute."
   },
-  standardHeaders: true, 
-  legacyHeaders: false, 
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 

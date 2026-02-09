@@ -39,7 +39,7 @@ app.use(oAuthGoogle)
 
 
 
-const port = 3001 | process.env.PORT
+const port = process.env.PORT || 3001
 server.listen(port, () => {
     console.log('successfully', `${port}`)
 })
