@@ -1,5 +1,5 @@
-const { getUsers, EditProfile, GetAcount, getProfileUser } = require('../controllar/user')
-const AuthUser = require('../middlware/authUser')
+const { getUsers, EditProfile, GetAcount, getProfileUser } = require('../controllers/user')
+const AuthUser = require('../middlewares/authUser')
 
 const userRouter=require('express').Router()
 

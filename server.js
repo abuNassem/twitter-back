@@ -1,6 +1,6 @@
 
-const express=require('express')
-const cors=require('cors')
+const express = require('express')
+const cors = require('cors')
 const authRouter = require('./router/auth')
 const userRouter = require('./router/user')
 const postRouter = require('./router/post')
@@ -10,16 +10,17 @@ const reactRouter = require('./router/react')
 const cookieParser = require('cookie-parser')
 const refreshRouter = require('./router/refreshToken')
 const notificationRouter = require('./router/notification')
-const oAuthGoogle = require('./loginWithGoogle/googleLogin')
+const oAuthGoogle = require('./googleAuth/googleLogin')
 const searchRouter = require('./router/search')
+const { limiter } = require('./limiters/limiter')
 require('./db/db')
-const app=express()
-const server=require('http').createServer(app)
+const app = express()
+const server = require('http').createServer(app)
 initSocket(server)
 app.use(cors({
-    origin:['http://localhost:3000','https://twittersy.netlify.app'],
-    credentials:true,
-     methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ['http://localhost:3000', 'https://tiweet.netlify.app'],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
 
 }))
 app.use(express.json())
@@ -38,7 +39,7 @@ app.use(oAuthGoogle)
 
 
 
-const port=3001|process.env.PORT
-server.listen(port,()=>{
-    console.log('successfully',`${port}`)
+const port = process.env.PORT || 3001
+server.listen(port, () => {
+    console.log('successfully', `${port}`)
 })

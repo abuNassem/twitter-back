@@ -1,5 +1,5 @@
-const { addReact, deleteReact, getReact } = require('../controllar/react')
-const AuthUser = require('../middlware/authUser')
+const { addReact, deleteReact, getReact } = require('../controllers/react')
+const AuthUser = require('../middlewares/authUser')
 
 const reactRouter=require('express').Router()
 

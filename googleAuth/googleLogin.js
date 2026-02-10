@@ -2,11 +2,12 @@ const oAuthGoogle=require('express').Router()
 require('dotenv').config()
 const session = require('express-session');
 const passport = require('passport');
-const AuthUser=require('../middlware/authUser')
+const AuthUser=require('../middlewares/authUser')
 const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
+const API=process.env.PORT|| 'http://localhost:3001'
+const frontPort=process.env.FRONT_PORT|| 'http://localhost:3000'
 oAuthGoogle.use(session({
   secret: 'mysecret',
   resave: false,
@@ -21,7 +22,7 @@ oAuthGoogle.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID:process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `https://twitter-back-f2q6.onrender.com/auth/google/callback`
+    callbackURL: `${API}/auth/google/callback`
   },
   (accessToken, refreshToken, profile, done) => {
     return done(null, profile); // هنا ممكن تخزن المستخدم في DB
@@ -63,9 +64,8 @@ oAuthGoogle.get('/auth/google/callback',
     
 
 
-           return res.redirect(`https://twittersy.netlify.app/?token=${refreshToken}`); 
+           return res.redirect(`${frontPort}/?token=${refreshToken}`); 
            
-
     
   } catch (error) {
     console.log(error)
