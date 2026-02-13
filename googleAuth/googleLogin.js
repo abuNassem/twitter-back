@@ -81,7 +81,6 @@ oAuthGoogle.get('/auth/profile', AuthUser, async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'user not found' })
     }
-    console.log('userrr', user)
     res.status(200).json({ user })
   }
   catch (error) {

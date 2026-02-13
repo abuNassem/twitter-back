@@ -12,7 +12,6 @@ const refreshRouter = require('./router/refreshToken')
 const notificationRouter = require('./router/notification')
 const oAuthGoogle = require('./googleAuth/googleLogin')
 const searchRouter = require('./router/search')
-const { limiter } = require('./limiters/limiter')
 require('./db/db')
 const app = express()
 const server = require('http').createServer(app)
@@ -39,7 +38,7 @@ app.use(oAuthGoogle)
 
 
 
-const port = process.env.PORT || 3001
+const port = 3001
 server.listen(port, () => {
     console.log('successfully', `${port}`)
 })
