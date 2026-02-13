@@ -16,13 +16,25 @@ require('./db/db')
 const app = express()
 const server = require('http').createServer(app)
 initSocket(server)
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://twitter-m90z5umnq-qutaibas-projects-281fb24a.vercel.app'],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
 
-}))
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://tiweet.netlify.app',
+    'https://twitter-m90z5umnq-qutaibas-projects-281fb24a.vercel.app'
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json())
 app.use(cookieParser())
 app.use(refreshRouter)
