@@ -1,13 +1,13 @@
-const oAuthGoogle=require('express').Router()
+const oAuthGoogle = require('express').Router()
 require('dotenv').config()
 const session = require('express-session');
 const passport = require('passport');
-const AuthUser=require('../middlewares/authUser')
+const AuthUser = require('../middlewares/authUser')
 const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const API=process.env.PORT|| 'http://localhost:3001'
-const frontPort=process.env.FRONT_PORT|| 'http://localhost:3000'
+const API = process.env.PORT || 'http://localhost:3001'
+const frontPort = process.env.FRONT_PORT || 'http://localhost:3000'
 oAuthGoogle.use(session({
   secret: 'mysecret',
   resave: false,
@@ -20,10 +20,10 @@ oAuthGoogle.use(passport.session());
 
 // 🔹 Google OAuth Strategy
 passport.use(new GoogleStrategy({
-    clientID:process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${API}/auth/google/callback`
-  },
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: `${API}/auth/google/callback`
+},
   (accessToken, refreshToken, profile, done) => {
     return done(null, profile); // هنا ممكن تخزن المستخدم في DB
   }
@@ -32,60 +32,60 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
 
 oAuthGoogle.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'],  prompt: 'select_account' })
-  
+  passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'select_account' })
+
 );
 
 
 oAuthGoogle.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/failed' }),
-  async(req, res) => {
-     try {
-        const randomPass=Math.floor(Math.random()*1000000000)
-    if (!req.isAuthenticated()) {
-      return res.status(404).json({ message: 'unathuntaction' }) 
-    }
-            
-    const email=req.user.emails[0].value
+  async (req, res) => {
+    try {
+      const randomPass = Math.floor(Math.random() * 1000000000)
+      if (!req.isAuthenticated()) {
+        return res.status(404).json({ message: 'unathuntaction' })
+      }
+
+      const email = req.user.emails[0].value
       let user = await User.findOne({ email })
 
-    if(!user){
-        user=new User({
-            name:req.user.displayName,
-            email,
-            password:randomPass,
-            profileImage:req.user.photos[0]?.value || null
+      if (!user) {
+        user = new User({
+          name: req.user.displayName,
+          email,
+          password: randomPass,
+          profileImage: req.user.photos[0]?.value || null
         })
         user.save()
-        
+
+      }
+
+      const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '15d' })
+
+
+
+      return res.redirect(`${frontPort}/?token=${refreshToken}`);
+
+
+    } catch (error) {
+      console.log(error)
+      return res.status(400).json(error)
     }
 
-     const refreshToken=jwt.sign({id:user._id},process.env.JWT_REFRESH_SECRET,{expiresIn:'15d'})
-    
-
-
-           return res.redirect(`${frontPort}/?token=${refreshToken}`); 
-           
-    
-  } catch (error) {
-    console.log(error)
-    return res.status(400).json(error) 
-  }
-   
   }
 );
-oAuthGoogle.get('/auth/profile',AuthUser,async(req,res)=>{
-    try{
-        const userId=req.user._id
-        const user=await User.findOne({_id:userId})
-        if(!user){
-            return res.status(400).json({message:'user not found'})
-        }
-        console.log('userrr',user)
-      res.status(200).json({user})
-            }
-    catch(error){
-        res.status(400).json(error)
-        }
+oAuthGoogle.get('/auth/profile', AuthUser, async (req, res) => {
+  try {
+    const userId = req.user._id
+    const user = await User.findOne({ _id: userId })
+    if (!user) {
+      return res.status(400).json({ message: 'user not found' })
+    }
+    console.log('userrr', user)
+    res.status(200).json({ user })
+  }
+  catch (error) {
+    res.status(400).json(error)
+  }
 })
-module.exports=oAuthGoogle
+module.exports = oAuthGoogle

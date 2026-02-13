@@ -18,7 +18,7 @@ const app = express()
 const server = require('http').createServer(app)
 initSocket(server)
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://tiweet.netlify.app'],
+    origin: ['http://localhost:3000', 'https://tiweet.netlify.app', 'https://twitter-m90z5umnq-qutaibas-projects-281fb24a.vercel.app'],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
 
