@@ -17,9 +17,10 @@ const app = express()
 const server = require('http').createServer(app)
 initSocket(server)
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://tiweet.netlify.app', 'https://twitter-m90z5umnq-qutaibas-projects-281fb24a.vercel.app'],
+    origin: ['http://localhost:3000', 'https://twitter-m90z5umnq-qutaibas-projects-281fb24a.vercel.app'],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 
 }))
 app.use(express.json())
@@ -38,7 +39,7 @@ app.use(oAuthGoogle)
 
 
 
-const port = 3001
+const port = process.env.PORT || 3001
 server.listen(port, () => {
     console.log('successfully', `${port}`)
 })
