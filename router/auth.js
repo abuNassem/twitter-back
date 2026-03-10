@@ -1,7 +1,8 @@
 const express=require('express')
-const { Register, Login } = require('../controllar/auth')
+const { Register, Login } = require('../controllers/auth')
+const { limiter } = require('../limiters/limiter')
 const authRouter=express.Router()
 
-authRouter.post('/register',Register)
-authRouter.post('/login',Login)
+authRouter.post('/register',limiter,Register)
+authRouter.post('/login',limiter,Login)
 module.exports=authRouter

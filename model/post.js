@@ -21,6 +21,7 @@ const postSchema = new mongoose.Schema({
   content: {
     text: {
       type: String,
+
       default: null,
     },
 
@@ -73,5 +74,5 @@ const postSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-postSchema.index({ "content.text": "text", postHashtags: 1 });
+postSchema.index({ "content.text": "text"});
 module.exports = mongoose.model('Post', postSchema);

@@ -1,5 +1,5 @@
-const { CreateNotific, GetNotific, ReadNotific } = require('../controllar/notification')
-const AuthUser = require('../middlware/authUser')
+const { CreateNotific, GetNotific, ReadNotific } = require('../controllers/notification')
+const AuthUser = require('../middlewares/authUser')
 const notificationRouter=require('express').Router()
 
 notificationRouter.post('/createNoti',AuthUser,CreateNotific)
